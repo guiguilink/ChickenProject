@@ -24,13 +24,16 @@ public class Launcher : MonoBehaviour {
 
 	void Update () 
     {
-        timer += Time.deltaTime;
+        if (InteractionManager.IsLaunchEnable())
+        {
+            timer += Time.deltaTime;
 
-        if (Input.GetButton("Fire") && launchForce < powerMax)
-            Powering();
+            if (Input.GetButton("Launch") && launchForce < powerMax)
+                Powering();
 
-        if (powering && Input.GetButtonUp("Fire"))
-            Launch();
+            if (powering && Input.GetButtonUp("Launch"))
+                Launch();
+        }
 	}
 
     void Powering()
