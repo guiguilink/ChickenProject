@@ -38,7 +38,6 @@ public class ResetLevel : MonoBehaviour {
 	{
 		startSink = true;
 		player.rigidbody.Sleep();
-		camera.GetComponent<CameraManager> ().SetGameOver (true);
 	}
 
 	public bool IsStartSink()

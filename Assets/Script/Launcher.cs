@@ -7,6 +7,7 @@ public class Launcher : MonoBehaviour {
     public int offsetPowering;
     public float poweringDelay;
     public GameObject player;
+    public GameObject levelCamera;
 
     Vector3 originLauncher;
     float timer;
@@ -51,6 +52,7 @@ public class Launcher : MonoBehaviour {
     {
         transform.position = originLauncher;
         player.GetComponent<PlayerManager>().Launch(launchForce);
+        levelCamera.GetComponent<CameraManager>().Launch();
         powering = false;
         launchForce = 0;
     }
