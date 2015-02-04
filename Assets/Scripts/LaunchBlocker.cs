@@ -38,13 +38,13 @@ public class LaunchBlocker : MonoBehaviour {
     {
         blocking = true;
         gameObject.GetComponent<MeshRenderer>().enabled = true;
-        gameObject.GetComponent<BoxCollider>().enabled = true;
+        gameObject.GetComponent<BoxCollider>().isTrigger = false;
     }
 
     public void UnBlock()
     {
         blocking = false;
         gameObject.GetComponent<MeshRenderer>().enabled = false;
-        gameObject.GetComponent<BoxCollider>().enabled = false;
+        gameObject.GetComponent<BoxCollider>().isTrigger = true;
     }
 }

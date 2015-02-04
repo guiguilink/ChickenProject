@@ -55,7 +55,7 @@ public class Launcher : MonoBehaviour {
     {
         transform.position = originLauncher;
         player.GetComponent<PlayerManager>().Launch(launchForce);
-        levelCamera.GetComponent<CameraManager>().Launch();
+        levelCamera.GetComponent<LevelCamera>().Launch();
         powering = false;
         launchForce = 0;
     }

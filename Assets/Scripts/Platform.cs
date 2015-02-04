@@ -4,18 +4,22 @@ using System;
 
 public class Platform : MonoBehaviour {
 
+    public float timeBetweenRotation;
+
     bool rotating;
+    float timer;
     Quaternion goalRotation;
 
 	// Use this for initialization
 	void Start () 
     {
         rotating = false;
+        timer = 0f;
 	    goalRotation = transform.rotation;
 	}
 	
 	// Update is called once per frame
-	void Update () 
+	void Update ()
     {
         if (Input.GetButton("Rotate") && !rotating && InteractionManager.IsRotateEnable())
         {
@@ -25,13 +29,14 @@ public class Platform : MonoBehaviour {
 
         if (rotating)
         {
-            decimal platZRot = Math.Round((Decimal)transform.rotation.z, 3, MidpointRounding.AwayFromZero);
-            decimal goalZRot = Math.Round((Decimal)goalRotation.z, 3, MidpointRounding.AwayFromZero);
-
             transform.rotation = Quaternion.Slerp(transform.rotation, goalRotation, 0.5f);
+            timer += Time.deltaTime;
 
-            if (platZRot == goalZRot)
+            if (timer > timeBetweenRotation)
+            {
                 rotating = false;
+                timer = 0f;
+            }
         }
 	}
 }

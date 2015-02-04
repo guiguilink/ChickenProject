@@ -6,6 +6,7 @@ public static class InteractionManager
     
     static bool canLaunch = true;
     static bool canRotate = false;
+    static bool canSwapCamera = false;
 
     public static void EnableLaunch()
     {
@@ -27,6 +28,16 @@ public static class InteractionManager
         canRotate = false;
     }
 
+    public static void EnableCameraSwap()
+    {
+        canSwapCamera = true;
+    }
+
+    public static void DisableCameraSwap()
+    {
+        canSwapCamera = false;
+    }
+
     public static bool IsLaunchEnable()
     {
         return canLaunch;
@@ -35,5 +46,10 @@ public static class InteractionManager
     public static bool IsRotateEnable()
     {
         return canRotate;
+    }    
+
+    public static bool IsCameraSwapEnable()
+    {
+        return canSwapCamera;
     }
 }

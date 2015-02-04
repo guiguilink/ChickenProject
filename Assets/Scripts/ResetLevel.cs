@@ -6,7 +6,6 @@ public class ResetLevel : MonoBehaviour {
 	public int level;
 	public float timeBeforeReset;
 	public GameObject player;
-	public GameObject levelCamera;
 	bool failure;
 	float timer;
 

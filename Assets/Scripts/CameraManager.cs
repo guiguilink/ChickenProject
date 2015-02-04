@@ -3,29 +3,44 @@ using System.Collections;
 
 public class CameraManager : MonoBehaviour {
 
-    public Vector3 launchPosition;
-    public Vector3 levelPosition;
-    public float speedCameraTranslation;
+    public GameObject levelCamera;
+    public GameObject playerCamera;
+    public float delayBetweenSwap;
 
-    bool launching;
+    float timer;
+    bool canSwap;
+    bool cameraInUse;   // 0 : levelCamera
+                        // 1 : playerCamera
 	
 	// Use this for initialization
 	void Start ()
 	{
-        launching = false;
+        timer = 0f;
+        canSwap = true;
+        cameraInUse = false;
 	}
 	
 	// Update is called once per frame
 	void Update ()
 	{
-        if(launching)
-        {
-            transform.position = Vector3.Lerp(transform.position, levelPosition, speedCameraTranslation);
-        }
+        //timer += Time.deltaTime;
+
+        //if(Input.GetButton("SwapCam") && canSwap)
+        //    SwapCam();
+
+        //if(timer > delayBetweenSwap)
+        //{
+        //    canSwap = true;
+        //    timer = 0f;
+        //}
 	}
 
-    public void Launch()
+    void SwapCam()
     {
-        launching = true;
+        canSwap = false;
+        cameraInUse = !cameraInUse;
+
+        levelCamera.camera.enabled = !cameraInUse;
+        playerCamera.camera.enabled = cameraInUse;
     }
 }
