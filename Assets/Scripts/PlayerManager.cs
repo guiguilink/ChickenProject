@@ -4,12 +4,14 @@ using System.Collections;
 public class PlayerManager : MonoBehaviour {
 
     public float delayBeforeAttenuation;
-    public int forceIndexer;
+    public float forceIndexer;
     public int offsetAttenuation;
 
     Vector3 originPlayer;
     bool launching;
-    int force;
+    bool rolling;
+    int launchForce;
+    float rollingForce;
     float timer;
 
 	// Use this for initialization
@@ -17,7 +19,9 @@ public class PlayerManager : MonoBehaviour {
     {
         originPlayer = transform.position;
         launching = false;
-        force = 0;
+        rolling = false;
+        launchForce = 0;
+        rollingForce = 0f;
         timer = 0f;
 	}
 
@@ -25,12 +29,18 @@ public class PlayerManager : MonoBehaviour {
     {
         timer += Time.deltaTime;
 
-        if (launching && force > 0)
+        if (launching && launchForce > 0)
         {
             if (timer > delayBeforeAttenuation)
-                force -= offsetAttenuation;
+                launchForce -= offsetAttenuation;
 
-            rigidbody.AddForce(new Vector3(0, force * forceIndexer, 0), ForceMode.Impulse);
+            GetComponent<Rigidbody>().AddForce(new Vector3(0, launchForce * forceIndexer, 0), ForceMode.Impulse);
+        }
+
+        if(rolling)
+        {
+            rollingForce += 0.1f;
+            //GetComponent<Rigidbody>().AddForce(new Vector3(rollingForce, 0, 0), ForceMode.Impulse);
         }
     }
 	
@@ -40,12 +50,24 @@ public class PlayerManager : MonoBehaviour {
         
 	}
 
-    public void Launch(int launchForce)
+    public void Launch(int force)
     {
-        rigidbody.WakeUp();
+        GetComponent<Rigidbody>().WakeUp();
         launching = true;
-        force = launchForce;
+        launchForce = force;
         timer = 0f;
         transform.position = originPlayer;
+    }
+
+    void OnCollisionEnter(Collision collision){
+        if (!rolling)
+            rolling = true;
+    }
+
+    void OnCollisionExit(Collision collision){
+        if(rolling)
+            rolling = false;
+
+        rollingForce = 0;
     }
 }

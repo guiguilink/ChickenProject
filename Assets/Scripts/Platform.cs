@@ -9,6 +9,7 @@ public class Platform : MonoBehaviour {
     bool rotating;
     float timer;
     Quaternion goalRotation;
+    public GameObject player;
 
 	// Use this for initialization
 	void Start () 

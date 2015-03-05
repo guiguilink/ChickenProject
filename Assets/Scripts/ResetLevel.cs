@@ -34,6 +34,6 @@ public class ResetLevel : MonoBehaviour {
 	public void OnCollisionEnter (Collision c)
 	{
 		failure = true;
-		player.rigidbody.Sleep();
+		player.GetComponent<Rigidbody>().Sleep();
 	}
 }

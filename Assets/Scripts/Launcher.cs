@@ -45,7 +45,7 @@ public class Launcher : MonoBehaviour {
 
             launchForce += 1 * offsetPowering;
 
-            transform.position -= new Vector3(0, 1, 0);
+            transform.position -= new Vector3(0, 0.1f, 0);
 
             timer = 0f;
         }

@@ -25,10 +25,10 @@ public class CameraManager : MonoBehaviour {
 	{
         //timer += Time.deltaTime;
 
-        //if(Input.GetButton("SwapCam") && canSwap)
+        //if (Input.GetButton("SwapCam") && canSwap)
         //    SwapCam();
 
-        //if(timer > delayBetweenSwap)
+        //if (timer > delayBetweenSwap)
         //{
         //    canSwap = true;
         //    timer = 0f;
@@ -40,7 +40,7 @@ public class CameraManager : MonoBehaviour {
         canSwap = false;
         cameraInUse = !cameraInUse;
 
-        levelCamera.camera.enabled = !cameraInUse;
-        playerCamera.camera.enabled = cameraInUse;
+        levelCamera.GetComponent<Camera>().enabled = !cameraInUse;
+        playerCamera.GetComponent<Camera>().enabled = cameraInUse;
     }
 }
