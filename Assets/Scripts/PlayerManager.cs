@@ -62,6 +62,17 @@ public class PlayerManager : MonoBehaviour {
     void OnCollisionEnter(Collision collision){
         if (!rolling)
             rolling = true;
+        else if(collision.gameObject.tag == "Collectible")
+        {
+            AudioSource audio = gameObject.GetComponent<AudioSource>();
+
+            if (!audio.isPlaying)
+            {
+                audio.clip = Resources.Load("Audio/yeah") as AudioClip;
+                audio.Play();
+                GameObject.Destroy(collision.gameObject);
+            }
+        }
     }
 
     void OnCollisionExit(Collision collision){
