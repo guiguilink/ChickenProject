@@ -14,6 +14,10 @@ public class PlayerManager : MonoBehaviour {
     float rollingForce;
     float timer;
 
+    GameObject expoYellow;
+    GameObject expoRed;
+    GameObject expoGreen;
+
 	// Use this for initialization
 	void Start () 
     {
@@ -23,7 +27,15 @@ public class PlayerManager : MonoBehaviour {
         launchForce = 0;
         rollingForce = 0f;
         timer = 0f;
-	}
+
+        expoYellow = GameObject.Find("ExpoYellow");
+        expoRed = GameObject.Find("ExpoRed");
+        expoGreen = GameObject.Find("ExpoGreen");
+
+        expoYellow.SetActive(false);
+        expoRed.SetActive(false);
+        expoGreen.SetActive(false);
+    }
 
     void FixedUpdate()
     {
@@ -35,12 +47,6 @@ public class PlayerManager : MonoBehaviour {
                 launchForce -= offsetAttenuation;
 
             GetComponent<Rigidbody>().AddForce(new Vector3(0, launchForce * forceIndexer, 0), ForceMode.Impulse);
-        }
-
-        if(rolling)
-        {
-            rollingForce += 0.1f;
-            //GetComponent<Rigidbody>().AddForce(new Vector3(rollingForce, 0, 0), ForceMode.Impulse);
         }
     }
 	
@@ -59,10 +65,9 @@ public class PlayerManager : MonoBehaviour {
         transform.position = originPlayer;
     }
 
-    void OnCollisionEnter(Collision collision){
-        if (!rolling)
-            rolling = true;
-        else if(collision.gameObject.tag == "Collectible")
+    void OnCollisionEnter(Collision collision)
+    {    
+        if(collision.gameObject.tag == "Collectible")
         {
             AudioSource audio = gameObject.GetComponent<AudioSource>();
 
@@ -70,15 +75,24 @@ public class PlayerManager : MonoBehaviour {
             {
                 audio.clip = Resources.Load("Audio/yeah") as AudioClip;
                 audio.Play();
+                string name = collision.gameObject.name;
                 GameObject.Destroy(collision.gameObject);
+
+                switch (name)
+                {
+                    case "Yellow" :
+                        expoYellow.SetActive(true);
+                        break;
+                    case "Red":
+                        expoRed.SetActive(true);
+                        break;
+                    case "Green":
+                        expoGreen.SetActive(true);
+                        break;
+                    default:
+                        break;
+                }
             }
         }
-    }
-
-    void OnCollisionExit(Collision collision){
-        if(rolling)
-            rolling = false;
-
-        rollingForce = 0;
     }
 }
