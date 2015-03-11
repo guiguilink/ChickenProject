@@ -3,16 +3,16 @@ using System.Collections;
 
 public class PlayerManager : MonoBehaviour {
 
+    public GameObject levelCamera;
     public float delayBeforeAttenuation;
     public float forceIndexer;
     public int offsetAttenuation;
 
     Vector3 originPlayer;
     bool launching;
-    bool rolling;
     int launchForce;
-    float rollingForce;
     float timer;
+    string lastCollectibleGet;
 
     GameObject expoYellow;
     GameObject expoRed;
@@ -23,9 +23,8 @@ public class PlayerManager : MonoBehaviour {
     {
         originPlayer = transform.position;
         launching = false;
-        rolling = false;
         launchForce = 0;
-        rollingForce = 0f;
+
         timer = 0f;
 
         expoYellow = GameObject.Find("ExpoYellow");
@@ -53,7 +52,12 @@ public class PlayerManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
     {
-        
+        if (levelCamera.GetComponent<LevelCamera>().PlayerBackOrigin)
+        {
+            transform.position = originPlayer;
+            levelCamera.GetComponent<LevelCamera>().PlayerBackOrigin = false;
+            GameObject.Destroy(GameObject.Find(lastCollectibleGet + "Prison"));
+        }
 	}
 
     public void Launch(int force)
@@ -75,24 +79,27 @@ public class PlayerManager : MonoBehaviour {
             {
                 audio.clip = Resources.Load("Audio/yeah") as AudioClip;
                 audio.Play();
-                string name = collision.gameObject.name;
-                GameObject.Destroy(collision.gameObject);
-
-                switch (name)
-                {
-                    case "Yellow" :
-                        expoYellow.SetActive(true);
-                        break;
-                    case "Red":
-                        expoRed.SetActive(true);
-                        break;
-                    case "Green":
-                        expoGreen.SetActive(true);
-                        break;
-                    default:
-                        break;
-                }
             }
+
+            lastCollectibleGet = collision.gameObject.name;
+            GameObject.Destroy(collision.gameObject);
+
+            switch (lastCollectibleGet)
+            {
+                case "Yellow" :
+                    expoYellow.SetActive(true);
+                    break;
+                case "Red":
+                    expoRed.SetActive(true);
+                    break;
+                case "Green":
+                    expoGreen.SetActive(true);
+                    break;
+                default:
+                    break;
+            }
+
+            levelCamera.GetComponent<LevelCamera>().GetCollectible();
         }
     }
 }
